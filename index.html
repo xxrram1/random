@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UKC-Food</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <img src="/20240118_104536_0000.png" alt="Logo" class="logo">
+            <div class="logo-text">UnknowCallback Food</div>
+            <button class="navbar-toggler" aria-label="Toggle navigation">
+                <span class="toggler-icon"></span>
+                <span class="toggler-icon"></span>
+                <span class="toggler-icon"></span>
+            </button>
+            <div class="nav-links">
+                <a href="#" id="randomize-nav">สุ่มเมนู</a>
+                <a href="#" id="viewAll-nav">ดูเมนูทั้งหมด</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>ยินดีต้อนรับสู่การสุ่มอาหาร</h1>
+        <p>เลือกประเภทอาหารที่คุณต้องการแล้วกดปุ่มสุ่ม</p>
+    </header>
+
+    <section id="random-food-section" class="section">
+        <h2>สุ่มเมนู</h2>
+        <label for="food-type">เลือกประเภทอาหาร:</label>
+        <select id="food-type">
+            <option value="spicy">เผ็ด</option>
+            <option value="nonSpicy">ไม่เผ็ด</option>
+            <option value="dessert">ของหวาน</option>
+        </select>
+        <button id="randomize">สุ่ม</button>
+        <div id="random-food" class="result-card hidden">
+            <h3>เมนูที่ได้:</h3>
+            <p id="random-food-name"></p>
+        </div>
+    </section>
+
+    <section id="all-menus-section" class="section hidden">
+        <h2>เมนูทั้งหมด</h2>
+        <label for="category-select">เลือกประเภทหมวดหมู่:</label>
+        <select id="category-select">
+            <option value="spicy">เผ็ด</option>
+            <option value="nonSpicy">ไม่เผ็ด</option>
+            <option value="dessert">ของหวาน</option>
+        </select>
+        <button id="scrollToCategory">ไปยังหมวดหมู่</button>
+        <div class="menu-category" id="spicy-category">
+            <h3>เมนูเผ็ด</h3>
+            <ul id="spicy-menus"></ul>
+        </div>
+        <div class="menu-category" id="nonSpicy-category">
+            <h3>เมนูไม่เผ็ด</h3>
+            <ul id="non-spicy-menus"></ul>
+        </div>
+        <div class="menu-category" id="dessert-category">
+            <h3>ของหวาน</h3>
+            <ul id="dessert-menus"></ul>
+        </div>
+    </section>
+
+    <button id="backToTop" class="back-to-top hidden">Back to Top</button>
+
+    <footer>
+        <div class="footer-content">
+            <h2>UKC Food</h2>
+            <p>ขอบคุณที่ใช้บริการสุ่มอาหารของเรา</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => {
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navLinks = document.querySelector('.nav-links');
+        const categorySelect = document.getElementById('category-select');
+        const scrollToCategoryBtn = document.getElementById('scrollToCategory');
+        
+        navbarToggler.addEventListener('click', () => {
+            navbarToggler.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    
+        scrollToCategoryBtn.addEventListener('click', () => {
+            const category = categorySelect.value;
+            const categorySection = document.getElementById(`${category}-category`);
+            if (categorySection) {
+                categorySection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 200) {
+            backToTopButton.classList.remove("hidden");
+        } else {
+            backToTopButton.classList.add("hidden");
+        }
+    });
+    
+    backToTopButton.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+    </script>
+</body>
+</html>
