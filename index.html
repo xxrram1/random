@@ -3,112 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UKC_Food</title>
+    <title>MenuMorph - Modern Restaurant Experience</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <img src="/20240118_104536_0000.png" alt="Logo" class="logo">
-            <div class="logo-text">UnknowCallback Food</div>
-            <button class="navbar-toggler" aria-label="Toggle navigation">
-                <span class="toggler-icon"></span>
-                <span class="toggler-icon"></span>
-                <span class="toggler-icon"></span>
-            </button>
-            <div class="nav-links">
-                <a href="#" id="randomize-nav">สุ่มเมนู</a>
-                <a href="#" id="viewAll-nav">ดูเมนูทั้งหมด</a>
+    <!-- Accessibility Mode Indicator -->
+    <div id="accessibility-indicator" class="accessibility-indicator hidden">
+        <i class="fas fa-universal-access"></i>
+        Accessibility Mode Active
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main Navigation">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>MenuMorph</h1>
+                <span class="logo-accent">Modern Dining</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="#hero" class="nav-link" data-category="home">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#menu" class="nav-link" data-category="starters">
+                    <i class="fas fa-utensils" aria-hidden="true"></i>
+                    <span>Starters</span>
+                </a>
+                <a href="#menu" class="nav-link" data-category="mains">
+                    <i class="fas fa-drumstick-bite" aria-hidden="true"></i>
+                    <span>Mains</span>
+                </a>
+                <a href="#menu" class="nav-link" data-category="desserts">
+                    <i class="fas fa-ice-cream" aria-hidden="true"></i>
+                    <span>Desserts</span>
+                </a>
+                <a href="#menu" class="nav-link" data-category="drinks">
+                    <i class="fas fa-coffee" aria-hidden="true"></i>
+                    <span>Drinks</span>
+                </a>
+            </div>
+
+            <div class="nav-controls">
+                <!-- Accessibility Toggle -->
+                <button id="accessibility-toggle" class="control-btn" aria-label="Toggle Accessibility Mode" title="Toggle Accessibility Mode">
+                    <i class="fas fa-universal-access"></i>
+                </button>
+                
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="control-btn" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Mobile Menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
     </nav>
 
-    <header class="hero">
-        <h1>ยินดีต้อนรับสู่การสุ่มอาหาร</h1>
-        <p>เลือกประเภทอาหารที่คุณต้องการแล้วกดปุ่มสุ่ม</p>
-    </header>
-
-    <section id="random-food-section" class="section">
-        <h2>สุ่มเมนู</h2>
-        <label for="food-type">เลือกประเภทอาหาร:</label>
-        <select id="food-type">
-            <option value="spicy">เผ็ด</option>
-            <option value="nonSpicy">ไม่เผ็ด</option>
-            <option value="dessert">ของหวาน</option>
-        </select>
-        <button id="randomize">สุ่ม</button>
-        <div id="random-food" class="result-card hidden">
-            <h3>เมนูที่ได้:</h3>
-            <p id="random-food-name"></p>
+    <!-- Hero Section -->
+    <section id="hero" class="hero" role="banner">
+        <div class="hero-bg">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="hero-title-main">Welcome to</span>
+                <span class="hero-title-brand">MenuMorph</span>
+                <span class="hero-title-sub">Where Flavors Transform</span>
+            </h1>
+            <p class="hero-description">
+                Experience culinary excellence with our carefully crafted menu featuring seasonal ingredients and innovative preparations.
+            </p>
+            <div class="hero-actions">
+                <button class="hero-btn primary" onclick="scrollToMenu()">
+                    <span>Explore Menu</span>
+                    <i class="fas fa-arrow-down"></i>
+                </button>
+                <button class="hero-btn secondary" onclick="openReservation()">
+                    <span>Make Reservation</span>
+                    <i class="fas fa-calendar"></i>
+                </button>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <div class="scroll-line"></div>
+            <span>Scroll to explore</span>
         </div>
     </section>
 
-    <section id="all-menus-section" class="section hidden">
-        <h2>เมนูทั้งหมด</h2>
-        <label for="category-select">เลือกประเภทหมวดหมู่:</label>
-        <select id="category-select">
-            <option value="spicy">เผ็ด</option>
-            <option value="nonSpicy">ไม่เผ็ด</option>
-            <option value="dessert">ของหวาน</option>
-        </select>
-        <button id="scrollToCategory">ไปยังหมวดหมู่</button>
-        <div class="menu-category" id="spicy-category">
-            <h3>เมนูเผ็ด</h3>
-            <ul id="spicy-menus"></ul>
-        </div>
-        <div class="menu-category" id="nonSpicy-category">
-            <h3>เมนูไม่เผ็ด</h3>
-            <ul id="non-spicy-menus"></ul>
-        </div>
-        <div class="menu-category" id="dessert-category">
-            <h3>ของหวาน</h3>
-            <ul id="dessert-menus"></ul>
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section" role="main">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Menu</h2>
+                <p class="section-subtitle">Discover our signature dishes crafted with passion and precision</p>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="menu-filters">
+                <button class="filter-btn active" data-category="all">
+                    <i class="fas fa-th-large"></i>
+                    All Items
+                </button>
+                <button class="filter-btn" data-category="starters">
+                    <i class="fas fa-utensils"></i>
+                    Starters
+                </button>
+                <button class="filter-btn" data-category="mains">
+                    <i class="fas fa-drumstick-bite"></i>
+                    Mains
+                </button>
+                <button class="filter-btn" data-category="desserts">
+                    <i class="fas fa-ice-cream"></i>
+                    Desserts
+                </button>
+                <button class="filter-btn" data-category="drinks">
+                    <i class="fas fa-coffee"></i>
+                    Drinks
+                </button>
+            </div>
+
+            <!-- Additional Filters -->
+            <div class="additional-filters">
+                <div class="filter-group">
+                    <label for="spice-filter">Spice Level:</label>
+                    <select id="spice-filter" aria-label="Filter by spice level">
+                        <option value="all">All Levels</option>
+                        <option value="mild">Mild</option>
+                        <option value="medium">Medium</option>
+                        <option value="hot">Hot</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="dietary-filter">Dietary:</label>
+                    <select id="dietary-filter" aria-label="Filter by dietary preferences">
+                        <option value="all">All Options</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="gluten-free">Gluten Free</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="menu-grid" id="menu-grid">
+                <!-- Menu items will be dynamically populated -->
+            </div>
         </div>
     </section>
 
-    <button id="backToTop" class="back-to-top hidden">Back to Top</button>
-
-    <footer>
-        <div class="footer-content">
-            <h2>UKC Food</h2>
-            <p>ขอบคุณที่ใช้บริการสุ่มอาหารของเรา</p>
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MenuMorph</h3>
+                    <p>Where culinary artistry meets modern dining experience. Join us for an unforgettable journey of flavors.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook" title="Follow us on Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" aria-label="Instagram" title="Follow us on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" aria-label="Twitter" title="Follow us on Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#reservations">Reservations</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Culinary Street, Food City</p>
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> hello@menumorph.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MenuMorph. All rights reserved. | Designed with ❤️ for food lovers</p>
+            </div>
         </div>
     </footer>
 
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading MenuMorph...</p>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script src="script.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', () => {
-        const navbarToggler = document.querySelector('.navbar-toggler');
-        const navLinks = document.querySelector('.nav-links');
-        const categorySelect = document.getElementById('category-select');
-        const scrollToCategoryBtn = document.getElementById('scrollToCategory');
-        
-        navbarToggler.addEventListener('click', () => {
-            navbarToggler.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-    
-        scrollToCategoryBtn.addEventListener('click', () => {
-            const category = categorySelect.value;
-            const categorySection = document.getElementById(`${category}-category`);
-            if (categorySection) {
-                categorySection.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 200) {
-            backToTopButton.classList.remove("hidden");
-        } else {
-            backToTopButton.classList.add("hidden");
-        }
-    });
-    
-    backToTopButton.addEventListener("click", () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
-    </script>
 </body>
 </html>
